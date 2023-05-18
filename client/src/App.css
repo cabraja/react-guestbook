@@ -1,0 +1,14 @@
+.message{
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 20px 30px;
+    margin-bottom: 12px;
+}
+.message h5{
+    margin: 0px auto;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+.message p{
+    margin: 0px auto;
+}
