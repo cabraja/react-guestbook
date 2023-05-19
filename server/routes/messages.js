@@ -6,16 +6,17 @@ const db = require('../connection.js');
 
 // DOHVATANJE PORUKA
 router.get('/', (req, res) => {
-    const query = "SELECT * FROM messages LIMIT 10";
+    const query = "SELECT * FROM messages ORDER BY date DESC LIMIT 10";
 
     db.query(query, (err,result) => {
         if(err){
-            res.send(err);
+            res.status(500).json({ error: 'An error occurred on the server.' });
         }else{
-            res.send(result);
+            res.status(200).json(result);
         }
     })
 });
+
 
 // KREIRANJE PORUKE
 router.post('/', (req,res) =>{

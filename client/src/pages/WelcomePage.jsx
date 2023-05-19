@@ -4,12 +4,19 @@ import Message from '../components/Message';
 export default function WelcomePage(){
 
     const [messages, setMessages] = useState([]);
+    const [error, setError] = useState("");
 
     useEffect(() => {
       fetch("http://localhost:5000/api/messages")
-        .then(res => res.json())
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            }else{
+                throw new Error('Request failed with status code ' + res.status);
+            }
+        })
         .then(data => setMessages(data))
-        .catch(err => console.log(err))
+        .catch(err => setError("Could not fetch data. Try again later."))
     }, [])
     
 
@@ -22,11 +29,18 @@ export default function WelcomePage(){
             <br />
 
             {
-                messages.length > 0 ?
-                messages.map(m => <Message message={m} key={m.id}/>)
+                error ?
+                <p className='error'>{error}</p>
                 :
-                <p>Loading messages...</p>
+                    messages.length > 0 && !error ?
+                    messages.map(m => <Message message={m} key={m.id}/>)
+                    :
+                    <p>Loading messages...</p>
             }
+
+            
+
+            
 
         </>
     )
