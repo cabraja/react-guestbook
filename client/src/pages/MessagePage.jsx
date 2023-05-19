@@ -3,6 +3,7 @@ import {React,useState} from 'react'
 export default function MessagePage(){
 
     const [error, setError] = useState("");
+    const [requestStatus, setRequestStatus] = useState("");
     const [isBtnDisabled, setIsBtnDisabled] = useState(false)
 
     // PROVERA FORME I SLANJE PORUKE
@@ -22,6 +23,7 @@ export default function MessagePage(){
 
         setError("");
         setIsBtnDisabled(true);
+        setRequestStatus("Sending...")
 
         const formObj = {
             message: formData.get("message"),
@@ -35,9 +37,14 @@ export default function MessagePage(){
             },
             body: JSON.stringify(formObj),
           })
-          .then(res => res.json())
-          .then(data => console.log(data))
-          .catch(err => console.log("Error: " + err))
+          .then(res => {
+            if(res.ok){
+                setRequestStatus("Message sent.")
+            }else{
+                throw new Error('Request failed with status code ' + res.status);
+            }
+          })
+          .catch(err => setRequestStatus("Error on the server. Try again later."))
     }
 
     return(
@@ -59,6 +66,7 @@ export default function MessagePage(){
                 <br/>
                 <br />
                 <p className='error'>{error}</p>
+                <p className='status'>{requestStatus}</p>
 
             </form>
         </>

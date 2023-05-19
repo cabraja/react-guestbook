@@ -19,8 +19,18 @@ router.get('/', (req, res) => {
 
 // KREIRANJE PORUKE
 router.post('/', (req,res) =>{
-    let data = req.body;
-    res.send(JSON.stringify(data));
+    const {message,name} = req.body;
+    const query = 'INSERT INTO messages (message,name) VALUES (?, ?)';
+    const values = [message,name];
+
+    db.query(query,values,(err,result) => {
+        if (err) {
+            res.status(500).json({ error: 'An error occurred while adding a message.' });
+            return;
+          }
+      
+          res.status(201).json({ message: 'Message added successfully' });
+    })
 })
 
 module.exports = router;
