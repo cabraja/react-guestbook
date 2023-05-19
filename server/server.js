@@ -4,6 +4,8 @@ const messagesRouter = require('./routes/messages');
 
 const app = express();
 app.use(cors())
+app.use(express.json());
+
 
 // HTTP ENDPOINTS
 app.use('/api/messages', messagesRouter);

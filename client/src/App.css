@@ -12,3 +12,6 @@
 .message p{
     margin: 0px auto;
 }
+.error{
+    color: red;
+}

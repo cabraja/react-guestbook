@@ -3,6 +3,7 @@ const router = express.Router();
 // KONEKCIJA IZDVOJENA U POSEBNI FAJL
 const db = require('../connection.js');
 
+
 // DOHVATANJE PORUKA
 router.get('/', (req, res) => {
     const query = "SELECT * FROM messages LIMIT 10";
@@ -15,5 +16,11 @@ router.get('/', (req, res) => {
         }
     })
 });
+
+// KREIRANJE PORUKE
+router.post('/', (req,res) =>{
+    let data = req.body;
+    res.send(JSON.stringify(data));
+})
 
 module.exports = router;
